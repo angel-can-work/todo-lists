@@ -1,0 +1,27 @@
+$primary: #7d4e2e;
+$secondary: #e06c49;
+$success: #567c57;
+$info: #f49345;
+$danger: $secondary;
+$light: #f6f6f8;
+
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+
+body {
+  font-family: "Quicksand", serif;
+}
+
+h1 {
+  font-family: "Playwrite DK Loopet Guides", serif;
+}
+
+input[type="checkbox"] {
+  accent-color: $primary;
+}
+
+.btn {
+  &.active, &:hover {
+  color: $light;
+}
+}

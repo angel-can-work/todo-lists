@@ -1,0 +1,118 @@
+<main class="container d-flex flex-column row-gap-4 px-3 py-5">
+    <!-- PAGE TITLE -->
+    <div class="row mb-3">
+        <h1 class="text-primary text-center mb-4 display-3">To-do Lists</h1>
+        <p class="text-center text-primary ">Let's get organized!</p>
+        <hr>
+    </div>
+    <!-- CREATE FORM AND BUTTONS -->
+    <div class="row col-md-6">
+        <form #newListForm="ngForm" class="input-group create-input-container row-gap-1"
+            (ngSubmit)="createList(); newListForm.reset()">
+            <input type="text" name="newListName" [(ngModel)]="newListName"
+                placeholder="New List Title" aria-label="Input to add a new list" required 
+                class="create-input text-primary border border-primary border-1 create-input focus-ring focus-ring-primary p-2 shadow-sm w-75">
+            <button type="submit" [disabled]="newListForm.invalid" class="btn btn-primary shadow w-25 p-0 border-0">Create
+                List</button>
+        </form>
+    </div>
+    <div class="row flex-column justify-self-start row-gap-3 lists-container">
+        <p class="text-primary fs-4 mb-0">Lists: </p>
+        <div class="row gap-3 button-container p-4">
+            @for(list of todoLists; track list; let index = $index;){
+            <button (click)="setSelectedList(index)"
+                [class.active]="list.name === selectedList.name"
+                class="btn list-button btn-outline-secondary shadow">
+                {{list.name | titlecase}}
+            </button>
+            } @empty {
+                <p class="no-lists-message text-primary text-center fs-3">You have no to-do lists.</p>
+            }
+
+        </div>
+    </div>
+    @if(todoLists.length > 0){
+    @if(selectedList.name) {
+        <div class="row justify-content-between list-and-notes-container">
+            <!-- TODO LIST -->
+            <div class="col-md-6 todo-list-container">
+                <div class="d-flex list-header align-items-baseline justify-content-between position-relative p-1 w-100">
+                    <input type="text" [value]="selectedList.name | titlecase" (blur)="updateListName($event)"
+                        (keyup.enter)="updateListName($event)"
+                        aria-label="Input to change the list name" required
+                        class="list-name text-secondary fs-2 focus-ring focus-ring-primary w-100 bg-transparent border-0">
+                    <button (click)="deleteList()" class="delete-button btn link-primary focus-ring focus-ring-primary">Delete</button>
+                </div>
+                <div class="progress shadow-sm mb-3 rounded-4">
+                    @if(percentage != '100%') {
+                    <div role="progressbar" [ngStyle]="{'width': percentage}" aria-valuenow="25"
+                        aria-valuemin="0" aria-valuemax="100" class="progress-bar">{{numberChecked}}/{{selectedList.listItems.length}}</div>
+                    } @else {
+                    <div role="progressbar" [ngStyle]="{'width': percentage}"
+                        aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" 
+                        class="progress-bar bg-info">Complete!</div>
+                    }
+                </div>
+                <table class="table bg-white shadow-sm">
+                    <tbody attr.aria-label="List for {{selectedList.name}}" 
+                        class="table-body  d-inline-block p-3 border-primary border-1 w-100">
+                        @for(item of selectedList.listItems; track item; let index = $index;)
+                        {<tr class="w-100 align-baseline">
+                            <td>
+                                <input type="checkbox" [checked]="item.isChecked" (change)="updateItem(index, $event)"
+                                    (keyup.enter)="item.isChecked = !item.isChecked"
+                                    [ngClass]="{'checked': item.isChecked}"
+                                    class="btn btn-outline-primary border-0" attr.aria-label="Checkbox for {{item.name}}">
+                            </td>
+                            <td>
+                                <input type="text" [value]="item.name" (blur)="updateItem(index, $event)"
+                                    (keyup.enter)="updateItem(index, $event)"
+                                    attr.aria-label="Input to change {{item.name}}"
+                                    placeholder="Perfect list item goes here."
+                                    class="text-primary w-100 focus-ring focus-ring-primary border-0 list-item-name">
+                            </td>
+                            <td class="text-end">
+                                <button (click)="deleteItem(index)" class="btn btn-primary remove-button">Remove</button>
+                            </td>
+                        </tr>
+                        } @empty {
+                        <p class="empty-list-message text-primary text-center">Add items to the list.</p>
+                        }
+                        <tr class="w-100 align-baseline">
+                            <td>
+                                <input type="checkbox" aria-label="Checkbox placeholder for new list item" disabled>
+                            </td>
+                            <td>
+                                <form #newListItemForm="ngForm" (ngSubmit)="addItem(); newListItemForm.reset()">
+                                    <input type="text" (blur)="addItem(); newListItemForm.reset()"
+                                        name="newListItem" [(ngModel)]="newListItem"
+                                        placeholder="Perfect list item goes here." aria-label="Input to add new list item"
+                                        required class="text-primary w-100 focus-ring focus-ring-primary border-0">
+                                </form>
+                            </td>
+
+                            <td class="text-end">
+                                <button disabled class="btn btn-primary">Remove</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- NOTES -->
+            <div class="col-md-6 todo-list-container d-flex flex-column align-items-baseline">
+                <p class="d-flex list-header text-secondary justify-content-between fs-2 mb-0 p-1">
+                    Notes
+                </p>
+                <textarea
+                    rows="15" cols="50" (blur)="updateNotes($event)" aria-label="Textarea for notes"
+                    placeholder="Perfect notes go here." [value]="selectedList.notes"
+                    class="notes text-primary focus-ring focus-ring-primary p-3 shadow-sm w-100 border-primary border-1"></textarea>
+            </div>
+        </div>
+    } @else {
+        <p class="text-center text-primary fs-3">
+            Select a list.
+        </p>
+        }
+    }
+</main>
