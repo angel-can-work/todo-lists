@@ -1,0 +1,42 @@
+.container {
+    max-width: 1200px;    
+}
+
+
+.list-button {
+    width: fit-content;
+}
+
+tr {
+    display: inline-table;
+    .remove-button {
+        visibility: hidden;
+    }
+    &:hover, &:focus-within {
+        .remove-button {
+            visibility: unset;
+        }    
+    }
+}
+
+.list-header {
+    input {
+        &:hover {
+            cursor: pointer;
+            font-weight: bold;
+        }
+        &:focus {
+            text-decoration: none;
+            font-weight: normal;
+            cursor:text;
+        }
+    }
+}
+
+.progress {
+    height: 20px;
+}
+
+
+ 
+
