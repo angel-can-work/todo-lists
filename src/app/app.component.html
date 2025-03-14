@@ -1,1 +1,60 @@
-<app-todo-list></app-todo-list>
+<main class="container d-flex flex-column row-gap-4 px-3 py-5">
+  <!-- PAGE TITLE -->
+  <div class="row mb-3">
+    <h1 class="text-primary text-center mb-4 display-3">To-do Lists</h1>
+    <p class="text-center text-primary">Let's get organized!</p>
+    <hr />
+  </div>
+  <!-- CREATE FORM AND BUTTONS -->
+  <div class="row col-md-6">
+    <form
+      #newListForm="ngForm"
+      class="input-group create-input-container row-gap-1"
+      (ngSubmit)="createTodoList()"
+    >
+      <input
+        type="text"
+        name="newListName"
+        [(ngModel)]="newListName"
+        placeholder="New List Title"
+        aria-label="Input to add a new list"
+        class="create-input text-primary
+        border border-primary
+        border-1 create-input
+        focus-ring focus-ring-primary
+        p-2 shadow-sm w-75"
+      />
+      <button
+        type="submit"
+        [disabled]="!newListName()"
+        class="btn btn-primary shadow w-25 p-0 border-0"
+      >
+        Create List
+      </button>
+    </form>
+  </div>
+  <div
+    class="row flex-column
+    justify-self-start row-gap-3
+    lists-container">
+    <p class="text-primary fs-4 mb-0">Lists:</p>
+    <div class="row gap-3 button-container p-4">
+      @for(list of store.todos(); track list.name; let index = $index;){
+      <button
+        (click)="setSelectedList(index)"
+        [class.active]="list.name === store.selectedList.name()"
+        class="btn list-button btn-outline-secondary shadow"
+      >
+        {{ list.name | titlecase }}
+      </button>
+      } @empty {
+      <p class="no-lists-message text-primary text-center fs-3">
+        You have no to-do lists.
+      </p>
+      }
+    </div>
+  </div>
+  @if(store.todos().length > 0){
+  <app-todo-list></app-todo-list>
+  }
+</main>

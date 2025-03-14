@@ -1,10 +1,5 @@
 .container {
-    max-width: 1200px;    
-}
-
-
-.list-button {
-    width: fit-content;
+    max-width: 1200px;
 }
 
 tr {
@@ -15,7 +10,7 @@ tr {
     &:hover, &:focus-within {
         .remove-button {
             visibility: unset;
-        }    
+        }
     }
 }
 
@@ -38,5 +33,5 @@ tr {
 }
 
 
- 
+
 
