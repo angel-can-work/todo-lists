@@ -1,4 +1,9 @@
+This app can be viewed [here](http://portfoliosite.todo-list.s3-website.us-east-2.amazonaws.com/).
+
+
 # Todo
+
+![image](https://s3.us-east-2.amazonaws.com/portfoliosite.todo-list/app/assets/Todo+Lists.png)
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.8.
 
